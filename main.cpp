@@ -1,3 +1,6 @@
+#include <iostream>
+#include <fstream>
+#include <string>
 using namespace std;
 // constants
 const int maxstudents = 150;
@@ -9,20 +12,22 @@ void calculateaverages(int tests[][numtests], double averages[],
 char getlettergrade(double average);
 void printresults(int students[], double averages[], int numstudents);
 // main function
-int main() string names[maxstudents];
-int tests[maxstudents][numtests];
-double averages[maxstudents];
-int numstudents;
-ifstream numstudents = readDatafromfile("students.txt", names, tests);
-if (not infile) {
-  cout << "Error opening file" << endl;
-  return 1;
-}
-students = readDatafromfile("students.txt", names, tests);
-calculateaverages(tests, averages, numstudents);
-printresults(names, averages, numstudents);
-infile.close();
-return 0;
+int main() {
+    string students[maxstudents];
+    int tests[maxstudents][numtests];
+    double averages[maxstudents];
+    int numstudents;
+
+    numstudents = readDatafromfile("students.txt", students, tests);
+    if (numstudents == -1) {
+        cout << "Error opening file" << endl;
+        return 1;
+    }
+
+    calculateaverages(tests, averages, numstudents);
+    printresults(students, averages, numstudents);
+
+    return 0;
 }
 // readDatafromfile function
 int readDatafromfile(string filename, int students[],
