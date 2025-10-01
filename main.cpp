@@ -2,16 +2,18 @@
 #include <fstream>
 #include <string>
 using namespace std;
-// constants
+
+// Constants
 const int maxstudents = 150;
 const int numtests = 10;
-// function declarations
-int readDatafromfile(string filename, int students[], int tests[][numtests]);
-void calculateaverages(int tests[][numtests], double averages[],
-                       int numstudents);)
+
+// Function declarations
+int readDatafromfile(string filename, string students[], int tests[][numtests]);
+void calculateaverages(int tests[][numtests], double averages[], int numstudents);
 char getlettergrade(double average);
-void printresults(int students[], double averages[], int numstudents);
-// main function
+void printresults(string students[], double averages[], int numstudents);
+
+// Main function
 int main() {
     string students[maxstudents];
     int tests[maxstudents][numtests];
@@ -29,40 +31,48 @@ int main() {
 
     return 0;
 }
-// readDatafromfile function
-int readDatafromfile(string filename, int students[],
-                     int tests[][numtests]) int numstudents = 0;
-while (count < maxstudents && infile >> names[count]) {
-  for (int i = 0; i < numtests; i++) {
-    infile >> tests[count][i];
-  }
-  count++;
+
+// Read data from file
+int readDatafromfile(string filename, string students[], int tests[][numtests]) {
+    ifstream infile(filename);
+    if (!infile) return -1;
+
+    int count = 0;
+    while (count < maxstudents && infile >> students[count]) {
+        for (int i = 0; i < numtests; i++) {
+            infile >> tests[count][i];
+        }
+        count++;
+    }
+
+    infile.close();
+    return count;
 }
+
+// Calculate averages
+void calculateaverages(int tests[][numtests], double averages[], int numstudents) {
+    for (int i = 0; i < numstudents; i++) {
+        double sum = 0;
+        for (int j = 0; j < numtests; j++) {
+            sum += tests[i][j];
+        }
+        averages[i] = sum / numtests;
+    }
 }
-// calculateaverages for each student
-void calculateaverages(int tests[][numtests], double averages[],
-                       int numstudents) for (int i = 0; i < numstudents; i++) {
-  double sum = 0;
-  for (int j = 0; j < numtests; j++) {
-    sum += tests[i][j];
-  }
-  averages[i] =
-      // getlettergrade function
-      char getlettergrade(double average) if (average >= 90) {
-    return 'A';
-  }
-  else if (average >= 80) {
-    return 'B';
-  }
-  else if (average >= 70) {
-    return 'C';
-  }
-  else if (average >= 60) {
-    return 'D';
-  }
-  else {
-    return 'F';
-  }
-  // printresults function
-  void printresults(int students[], double averages[], int numstudents) cout
-      << "Student Name\tAverage\tLetter Grade" << endl;
+
+// Get letter grade
+char getlettergrade(double average) {
+    if (average >= 90) return 'A';
+    else if (average >= 80) return 'B';
+    else if (average >= 70) return 'C';
+    else if (average >= 60) return 'D';
+    else return 'F';
+}
+
+// Print results
+void printresults(string students[], double averages[], int numstudents) {
+    cout << "Student Name\tAverage\tLetter Grade" << endl;
+    for (int i = 0; i < numstudents; i++) {
+        cout << students[i] << "\t" << averages[i] << "\t" << getlettergrade(averages[i]) << endl;
+    }
+}
